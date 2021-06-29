@@ -1,4 +1,3 @@
-import csv
 import pandas as pd
 import sys
 
@@ -33,27 +32,25 @@ def shufflingBackwords(clustData, seqIDs):
 
 def loadClusteringData(filename):
 
+    # printing statement
+    print("Constructing kmer matrix ...")
+
     # Path from data File and path for clustering
     dataFile = 'Output/'+ filename +'/output.csv'
     seqIndicesFile = 'Output/'+ filename +'/seqIndices.csv'
     timesPerSeqFile = 'Output/'+ filename +'/timesPerSeq.csv'
     seqIDsFile = 'Input/'+ filename +'_sequencesIDs.csv'
     clusteringDataPath = 'Output/clustData.csv'
-    clusteringDataPathNoHeaers = 'Output/clustData_no_headres.csv'
     
-    with open(dataFile) as csvfile:
-        cpamreader = csv.reader(csvfile)
-        inputData = list(cpamreader)
-    inputData = inputData[1:]
+    inputData = pd.read_csv(dataFile)
+    inputData = inputData.values.tolist()
+    
+    seqIndices = pd.read_csv(seqIndicesFile, header = None)
+    seqIndices = seqIndices.values.tolist()
 
-    with open(seqIndicesFile) as csvfile:
-        cpamreader = csv.reader(csvfile)
-        seqIndices = list(cpamreader)
-    
-    with open(timesPerSeqFile) as csvfile:
-        cpamreader = csv.reader(csvfile)
-        timesPerSeq = list(cpamreader)
-    
+    timesPerSeq = pd.read_csv(timesPerSeqFile, header = None)
+    timesPerSeq = timesPerSeq.values.tolist()
+
     seqs = pd.read_csv(seqIDsFile)
     seqIDs = []
      
@@ -77,8 +74,8 @@ def loadClusteringData(filename):
     
     for i in range(len(seqIndices)):
         for j in range(len(seqIDs)):
-            if str(j) in seqIndices[i]:
-                clustData[j][i] = timesPerSeq[i][seqIndices[i].index(str(j))]
+            if float(j) in seqIndices[i]:
+                clustData[j][i] = timesPerSeq[i][seqIndices[i].index(float(j))]
     
     clustData, seqIDs = shufflingBackwords(clustData, seqIDs)    
     this_seqIDs = [seqIDs[i][1] for i in range(len(seqIDs))]

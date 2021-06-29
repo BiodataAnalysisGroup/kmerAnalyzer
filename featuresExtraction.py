@@ -19,7 +19,7 @@ kmin = 4 	# don't change this, otherwise the code won't run correctly
 
 ######## PARAMETERS #######################################
 kmax = 20
-eval_factor = 1.3	# it should be greater than 1
+eval_factor = 1.3	# it should be greater than 
 
 # Adding all children in a node
 def add_all_nodes(current, depth):

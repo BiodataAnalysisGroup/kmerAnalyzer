@@ -23,8 +23,8 @@ def read_fastq_file(fn):
         
         for line in fh:
             if line[0] != '>':
-                lines.append(line.rstrip())
-
+                lines.append(line.rstrip().upper())
+                
             else:
                 data.append(''.join(lines))
                 seqIDs.append([line, 'ID-' + str(id_counter)])

@@ -7,8 +7,8 @@ Created on Wed Oct 23 16:44:55 2019
 
 import os
 import numpy as np
-import csv
 import shutil
+import pandas as pd
 
 def clearingFolders(folder):
     
@@ -29,14 +29,9 @@ def createCsvOutput(filename, treelist):
     name = 'output.csv'
     path = directory + name
 
-    with open(path, 'w') as write_obj:
-        # Create a writer object from csv module
-        csv_writer = csv.writer(write_obj)
-        csv_writer.writerow(['K-mer', 'Length', 'Count', 'Evaluation'])
-        for i in range(len(treelist)):
-            # Add contents of list as last row in the csv file
-            csv_writer.writerow(treelist[i])
-
+    df = pd.DataFrame(treelist, columns = ['K-mer', 'Length', 'Count', 'Evaluation'])
+    df.to_csv(path, index=False)
+    
     return
 
 def createCsvOutputForSeqIndices(filename, seqIndices, timesPerSeq):
@@ -49,22 +44,14 @@ def createCsvOutputForSeqIndices(filename, seqIndices, timesPerSeq):
     name_1 = 'seqIndices.csv'
     path_1 = directory + name_1
 
-    with open(path_1, 'w') as write_obj:
-        # Create a writer object from csv module
-        csv_writer = csv.writer(write_obj)
-        for i in range(len(seqIndices)):
-            # Add contents of list as last row in the csv file
-            csv_writer.writerow(seqIndices[i])
+    df = pd.DataFrame(seqIndices)
+    df.to_csv(path_1, index=False,header=False)
+
 
     name_2 = 'timesPerSeq.csv'
     path_2 = directory + name_2
 
-    with open(path_2, 'w') as write_obj:
-        # Create a writer object from csv module
-        csv_writer = csv.writer(write_obj)
-        for i in range(len(timesPerSeq)):
-            # Add contents of list as last row in the csv file
-            csv_writer.writerow(timesPerSeq[i])
+    df = pd.DataFrame(timesPerSeq)
+    df.to_csv(path_2, index=False,header=False)
 
     return
-
